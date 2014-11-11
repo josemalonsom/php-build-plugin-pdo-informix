@@ -87,6 +87,14 @@ this will add the line "install_pdo_informix 1.3.1" to the end of the definition
 
 > Note that, depending on your installation, you may need superuser permissions to execute the command.
 
+##Prerequisites##
+
+For build the extension you need to have installed the Informix Client SDK
+and the INFORMIXDIR variable must be exported with the path to the
+directory where it is installed (generally /opt/informix).
+
+See http://php.net/pdo-informix .
+
 #Credits#
 
 The plugin is a modified copy of the plugin [xhprof.sh](https://github.com/CHH/php-build/blob/master/share/php-build/plugins.d/xhprof.sh), so all the credit is for the [php-build](https://github.com/CHH/php-build) guys.
