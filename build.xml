@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="php-build-plugin-pdo-informix" default="test">
+
+    <property name="working.dir" value="${basedir}/test/working-dir" />
+    <property environment="env"/>
+
+    <target name="test"
+        depends="initialize-test-environment, run-tests, clean-up"
+        description="Prepares the environment and runs the tests" />
+
+    <target name="initialize-test-environment" depends="remove-working-dir,
+        create-working-dir, install-php-build, install-plugin, install-bats" />
+
+    <target name="remove-working-dir" description="Removes the working directory">
+        <delete dir="${working.dir}"/>
+    </target>
+
+    <target name="create-working-dir">
+        <mkdir dir="${working.dir}" />
+    </target>
+
+    <target name="clean-up">
+        <antcall target="remove-working-dir" />
+    </target>
+
+    <target name="install-php-build">
+        <property name="php-build.clone.dir" value="${working.dir}/php-build-clone" />
+        <exec executable="git" failonerror="true">
+            <arg value="clone" />
+            <arg value="https://github.com/php-build/php-build.git" />
+            <arg value="${php-build.clone.dir}" />
+        </exec>
+        <exec executable="${php-build.clone.dir}/install.sh" failonerror="true">
+            <env key="PREFIX" value="${working.dir}"/>
+        </exec>
+    </target>
+
+    <target name="install-plugin">
+        <exec executable="ln" failonerror="true">
+            <arg value="-v" />
+            <arg value="-s" />
+            <arg value="${basedir}/src/pdo_informix.sh" />
+            <arg value="${working.dir}/share/php-build/plugins.d/" />
+        </exec>
+    </target>
+
+    <target name="install-bats">
+        <property name="bats.clone.dir" value="${working.dir}/bats-clone" />
+        <exec executable="git" failonerror="true">
+            <arg value="clone" />
+            <arg value="https://github.com/sstephenson/bats.git" />
+            <arg value="${bats.clone.dir}" />
+        </exec>
+        <exec executable="${bats.clone.dir}/install.sh" failonerror="true">
+            <arg value="${working.dir}" />
+        </exec>
+    </target>
+
+    <target name="run-tests" description="Runs the tests">
+        <exec executable="sh" failonerror="true">
+            <env key="PATH" value="${env.PATH}:${working.dir}/bin"/>
+            <arg value="-c"/>
+            <arg value="bats test/*bats"/>
+        </exec>
+    </target>
+</project>
