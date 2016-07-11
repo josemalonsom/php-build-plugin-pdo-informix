@@ -4,6 +4,8 @@ This is a plugin for [php-build](https://github.com/CHH/php-build) that
 download and compiles the PECL
 [PDO_INFORMIX](http://pecl.php.net/package/PDO_INFORMIX) extension.
 
+[![Build Status](http://vps195060.ovh.net:8080/job/php-build-plugin-pdo-informix/badge/icon)](http://vps195060.ovh.net:8080/job/php-build-plugin-pdo-informix)
+
 ##Download##
 
 You can download the code cloning the repository with git or downloading
